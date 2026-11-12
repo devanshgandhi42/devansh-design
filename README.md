@@ -1,6 +1,6 @@
 # devansh.design
 
-Personal portfolio of Devansh Gandhi. A single static page: no build step, no framework.
+Personal portfolio of Dev Gandhi. A single static page: no build step, no framework.
 
 ## Files
 
