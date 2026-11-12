@@ -115,7 +115,7 @@
     }
 
     /* Smooth fade when switching themes (only while switching) */
-    html.theme-switching, html.theme-switching * {
+    html.theme-switching, html.theme-switching *:not(.ico):not(.ico *) {
       transition: background-color 240ms var(--ease), color 240ms var(--ease), border-color 240ms var(--ease), fill 240ms var(--ease) !important;
     }
 
@@ -134,16 +134,42 @@
       transition: background var(--fast) var(--ease), color var(--fast) var(--ease);
     }
     .theme-toggle:hover { background: var(--surface); color: var(--ink); }
-    .theme-toggle svg {
-      position: absolute; width: 16px; height: 16px;
-      transition: opacity var(--fast) var(--ease), transform var(--slow) var(--ease);
+    /* Sun ⇄ moon morph: rays retract, the disc swells, and a shadow slides in to carve a crescent */
+    .theme-toggle .ico {
+      width: 18px; height: 18px; overflow: visible;
+      transform: rotate(45deg);   /* the sun looks the same rotated; this sets up the spin into the moon */
+      transition: transform 500ms cubic-bezier(.34, 1.56, .64, 1);
     }
-    .theme-toggle .ico-moon { opacity: 0; transform: rotate(-90deg) scale(.6); }
-    :root[data-theme="dark"] .theme-toggle .ico-sun { opacity: 0; transform: rotate(90deg) scale(.6); }
-    :root[data-theme="dark"] .theme-toggle .ico-moon { opacity: 1; transform: none; }
+    .ico .core, .ico .bite, .ico .rays line {
+      transform-box: fill-box; transform-origin: center;
+    }
+    .ico .core { transform: scale(.62); transition: transform 450ms cubic-bezier(.34, 1.56, .64, 1); }
+    .ico .bite { transform: translate(9px, -9px); transition: transform 450ms var(--ease); }
+    .ico .rays line {
+      transition: transform 380ms cubic-bezier(.34, 1.56, .64, 1), opacity 200ms var(--ease);
+    }
+    /* rays pop back out one after another when returning to light */
+    .ico .rays line:nth-child(1) { transition-delay: 120ms; }
+    .ico .rays line:nth-child(2) { transition-delay: 150ms; }
+    .ico .rays line:nth-child(3) { transition-delay: 180ms; }
+    .ico .rays line:nth-child(4) { transition-delay: 210ms; }
+    .ico .rays line:nth-child(5) { transition-delay: 240ms; }
+    .ico .rays line:nth-child(6) { transition-delay: 270ms; }
+    .ico .rays line:nth-child(7) { transition-delay: 300ms; }
+    .ico .rays line:nth-child(8) { transition-delay: 330ms; }
+
+    :root[data-theme="dark"] .theme-toggle .ico { transform: rotate(0deg); }
+    :root[data-theme="dark"] .ico .core { transform: scale(1); }
+    :root[data-theme="dark"] .ico .bite { transform: translate(0, 0); transition-delay: 80ms; }
+    :root[data-theme="dark"] .ico .rays line { transform: scale(0); opacity: 0; transition-delay: 0ms; }
     @media (prefers-color-scheme: dark) {
-      :root:not([data-theme]) .theme-toggle .ico-sun { opacity: 0; transform: rotate(90deg) scale(.6); }
-      :root:not([data-theme]) .theme-toggle .ico-moon { opacity: 1; transform: none; }
+      :root:not([data-theme]) .theme-toggle .ico { transform: rotate(0deg); }
+      :root:not([data-theme]) .ico .core { transform: scale(1); }
+      :root:not([data-theme]) .ico .bite { transform: translate(0, 0); }
+      :root:not([data-theme]) .ico .rays line { transform: scale(0); opacity: 0; transition-delay: 0ms; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .theme-toggle .ico, .ico .core, .ico .bite, .ico .rays line { transition: none !important; }
     }
 
     * { box-sizing: border-box; }
@@ -494,8 +520,14 @@
         </p>
         </div>
         <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark mode">
-          <svg class="ico-sun" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="3"/><path d="M8 1.5v1.3M8 13.2v1.3M1.5 8h1.3M13.2 8h1.3M3.4 3.4l.9.9M11.7 11.7l.9.9M3.4 12.6l.9-.9M11.7 4.3l.9-.9"/></svg>
-          <svg class="ico-moon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><path d="M13.2 9.6A5.6 5.6 0 0 1 6.4 2.8a5.6 5.6 0 1 0 6.8 6.8z"/></svg>
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true">
+            <mask id="moon-bite">
+              <rect x="-4" y="-4" width="32" height="32" fill="#fff"/>
+              <circle class="bite" cx="16.5" cy="7.5" r="6.5" fill="#000"/>
+            </mask>
+            <circle class="core" cx="12" cy="12" r="7.5" fill="currentColor" mask="url(#moon-bite)"/>
+            <g class="rays" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="19.60" y1="12.00" x2="22.20" y2="12.00"/><line x1="17.37" y1="17.37" x2="19.21" y2="19.21"/><line x1="12.00" y1="19.60" x2="12.00" y2="22.20"/><line x1="6.63" y1="17.37" x2="4.79" y2="19.21"/><line x1="4.40" y1="12.00" x2="1.80" y2="12.00"/><line x1="6.63" y1="6.63" x2="4.79" y2="4.79"/><line x1="12.00" y1="4.40" x2="12.00" y2="1.80"/><line x1="17.37" y1="6.63" x2="19.21" y2="4.79"/></g>
+          </svg>
         </button>
       </div>
 
