@@ -431,7 +431,7 @@
 
     /* ---------- Footer + tennis ball ---------- */
     .footer {
-      margin-top: 40px;
+      margin-top: 16px;
       font-size: 13px; color: var(--muted);
     }
     .footer p { margin: 0; }
@@ -439,7 +439,7 @@
     /* The court: a strip above the copyright with a faint baseline the ball lands on */
     .court {
       position: relative;
-      height: 140px;
+      height: 116px;
       margin-bottom: 20px;
       border-bottom: 1px solid var(--rule);
       overflow: hidden;
@@ -982,15 +982,15 @@
       }
 
       // Each stroke: how it sounds (pitch, level, tone) and how it flies
-      // vy sets the first bounce height (≈ vy² / 4800 px): volley ~45px, serve ~55, slice ~60, backhand ~75, forehand ~85, lob ~100.
-      // The court is 140px tall, so 720 is the cap that keeps the ball in view.
+      // vy sets the first bounce height (≈ vy² / 4800 px): volley ~40px, serve ~48, slice ~54, backhand ~64, forehand ~74, lob ~84.
+      // The court is 116px tall, so 640 is the cap that keeps the ball in view.
       var STROKES = [
-        { name: 'forehand', rate: 1.00, gain: 0.90, tone: 9000,  vy: 640,  T: 1.5 },
-        { name: 'backhand', rate: 0.96, gain: 0.85, tone: 7000,  vy: 600,  T: 1.6 },
-        { name: 'serve',    rate: 1.07, gain: 1.00, tone: 14000, vy: 520,  T: 1.2 },
-        { name: 'volley',   rate: 1.12, gain: 0.75, tone: 12000, vy: 470,  T: 1.1 },
-        { name: 'slice',    rate: 0.92, gain: 0.65, tone: 4200,  vy: 540,  T: 1.9 },
-        { name: 'lob',      rate: 0.94, gain: 0.70, tone: 5200,  vy: 700,  T: 2.2 }
+        { name: 'forehand', rate: 1.00, gain: 0.90, tone: 9000,  vy: 595,  T: 1.5 },
+        { name: 'backhand', rate: 0.96, gain: 0.85, tone: 7000,  vy: 555,  T: 1.6 },
+        { name: 'serve',    rate: 1.07, gain: 1.00, tone: 14000, vy: 480,  T: 1.2 },
+        { name: 'volley',   rate: 1.12, gain: 0.75, tone: 12000, vy: 440,  T: 1.1 },
+        { name: 'slice',    rate: 0.92, gain: 0.65, tone: 4200,  vy: 510,  T: 1.9 },
+        { name: 'lob',      rate: 0.94, gain: 0.70, tone: 5200,  vy: 630,  T: 2.2 }
       ];
       var lastStroke = -1;
       function pickStroke() {
@@ -1037,7 +1037,7 @@
         }
         // Launch on contact, after the swing
         setTimeout(function () {
-          fly(target, Math.min(jitter(s.vy, 0.06), 720), jitter(s.T, 0.08));
+          fly(target, Math.min(jitter(s.vy, 0.06), 640), jitter(s.T, 0.08));
         }, delay * 1000);
       }
 
@@ -1050,7 +1050,7 @@
         var ballIO = new IntersectionObserver(function (entries) {
           if (entries[0].isIntersecting) {
             ballIO.disconnect();
-            cur.y = 108;
+            cur.y = 84;
             side = 'right';
             fly(rightX(), 0, 2.1);
           }
