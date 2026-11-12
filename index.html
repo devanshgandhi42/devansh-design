@@ -791,10 +791,22 @@
         }, 150);
       }
       if (hasIO) {
-        var nowIO = new IntersectionObserver(function (entries) {
-          entries.forEach(function (e) { if (e.isIntersecting) setActive(shots.indexOf(e.target)); });
-        }, { rootMargin: '-45% 0px -55% 0px', threshold: 0 });
-        shots.forEach(function (s) { nowIO.observe(s); });
+        // The active project is whichever one fills the most of the screen, so it matches
+        // what you're looking at regardless of window size (ties go to the higher one).
+        var ticking = false;
+        function pickActive() {
+          ticking = false;
+          var vh = window.innerHeight, best = 0, bestArea = -1;
+          for (var i = 0; i < shots.length; i++) {
+            var r = shots[i].getBoundingClientRect();
+            var visible = Math.min(r.bottom, vh) - Math.max(r.top, 0);
+            if (visible > bestArea + 1) { bestArea = visible; best = i; }
+          }
+          setActive(best);
+        }
+        function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(pickActive); } }
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll);
       }
       setActive(0);
 
