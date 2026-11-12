@@ -981,6 +981,23 @@
         return (loading = Promise.all(jobs).then(function () { ready = true; }));
       }
 
+      // Phones (iOS Safari especially) only let a page start audio during the tap itself.
+      // This runs synchronously inside the tap: it wakes the audio engine and plays an
+      // inaudible blip, which unlocks sound for every hit after it.
+      var unlocked = false;
+      function unlockAudio() {
+        prepareAudio();
+        if (!audio || unlocked) return;
+        try {
+          if (audio.state === 'suspended') audio.resume();
+          var blip = audio.createBufferSource();
+          blip.buffer = audio.createBuffer(1, 1, 22050);
+          blip.connect(audio.destination);
+          blip.start(0);
+          unlocked = true;
+        } catch (e) {}
+      }
+
       // Each stroke: how it sounds (pitch, level, tone) and how it flies
       // vy sets the first bounce height (≈ vy² / 4800 px): volley ~40px, serve ~48, slice ~54, backhand ~64, forehand ~74, lob ~84.
       // The court is 116px tall, so 640 is the cap that keeps the ball in view.
@@ -1059,9 +1076,18 @@
       }
       ballBtn.addEventListener('pointerenter', prepareAudio);
       ballBtn.addEventListener('focus', prepareAudio);
+      ballBtn.addEventListener('touchend', unlockAudio, { passive: true });
       ballBtn.addEventListener('click', function () {
+        unlockAudio();
         if (ready) { hitBall(); } else { prepareAudio().then(hitBall); }
       });
+      // Decode the hit sounds as soon as the court is near, so the first tap plays instantly
+      if (hasIO) {
+        var audioIO = new IntersectionObserver(function (entries) {
+          if (entries[0].isIntersecting) { prepareAudio(); audioIO.disconnect(); }
+        }, { rootMargin: '400px 0px' });
+        audioIO.observe(court);
+      }
       window.addEventListener('resize', function () {
         if (!raf && court.classList.contains('is-rested')) {
           place(side === 'right' ? rightX() : leftX(), 0, cur.rot, 1, 1);
