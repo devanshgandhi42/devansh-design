@@ -544,7 +544,7 @@
 
       <div class="now reveal" style="--i:3" aria-hidden="true">
         <span class="now-count" id="now-count">01 / 08</span>
-        <span class="now-title" id="now-title">[Project name] — Toast</span>
+        <span class="now-title" id="now-title">[Project name] - Toast</span>
       </div>
     </aside>
 
@@ -795,7 +795,7 @@
         if (i === active) return;
         active = i;
         var s = shots[i];
-        var label = s.getAttribute('data-title') + ' — ' + s.getAttribute('data-company');
+        var label = s.getAttribute('data-title') + ' - ' + s.getAttribute('data-company');
         nowCount.textContent = pad(i + 1) + ' / ' + pad(shots.length);
         cos.forEach(function (c) { c.classList.toggle('is-active', c.getAttribute('data-co') === s.getAttribute('data-co')); });
         if (reduceMotion) { nowTitle.textContent = label; return; }
