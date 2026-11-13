@@ -9,7 +9,7 @@ Personal portfolio of Dev Gandhi. A single static page: no build step, no framew
 | `index.html` | The whole site: markup, styles, scripts, and the tennis-ball hit sounds |
 | `resume.pdf` | Linked from "Resume" in the sidebar |
 | `images/` | Put your work here (images, GIFs, MP4s) |
-| `favicon.svg`, `favicon-32.png`, `apple-touch-icon.png` | "DG." icons for the browser tab (adapts to dark tabs) and phone home screens |
+| `favicon.svg`, `favicon-32.png`, `apple-touch-icon.png` | "DG" icons for the browser tab (adapts to dark tabs) and phone home screens |
 | `og-image.png` | Preview card shown when the link is shared |
 
 ## Adding work
