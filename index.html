@@ -683,11 +683,28 @@
           root.classList.add('theme-switching');
           setTimeout(function () { root.classList.remove('theme-switching'); }, 300);
         }
-        root.setAttribute('data-theme', next);
-        try { localStorage.setItem('theme', next); } catch (e) {}
+        // Smart reset: picking the same mode as the device means "just follow my device",
+        // so forget the saved choice instead of locking it in.
+        var system = systemDark.matches ? 'dark' : 'light';
+        if (next === system) {
+          root.removeAttribute('data-theme');
+          try { localStorage.removeItem('theme'); } catch (e) {}
+        } else {
+          root.setAttribute('data-theme', next);
+          try { localStorage.setItem('theme', next); } catch (e) {}
+        }
         syncToggle();
       });
-      if (systemDark.addEventListener) systemDark.addEventListener('change', syncToggle);
+      // If the device switches to match a saved choice, drop the override so it follows the device from then on
+      function onSystemChange() {
+        var saved = root.getAttribute('data-theme');
+        if (saved && saved === (systemDark.matches ? 'dark' : 'light')) {
+          root.removeAttribute('data-theme');
+          try { localStorage.removeItem('theme'); } catch (e) {}
+        }
+        syncToggle();
+      }
+      if (systemDark.addEventListener) systemDark.addEventListener('change', onSystemChange);
       syncToggle();
 
       /* ---------- Seattle clock ---------- */
