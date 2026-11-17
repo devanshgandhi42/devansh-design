@@ -554,7 +554,7 @@
       <div class="now reveal" style="--i:3" aria-hidden="true">
         <span class="now-count" id="now-count">01 / 06</span>
         <div class="now-body" id="now-body">
-          <span class="now-title" id="now-title">[Project name] - Toast</span>
+          <span class="now-title" id="now-title">[Project name] · Toast</span>
           <span class="now-line" id="now-line"></span>
           <div class="now-stats" id="now-stats"></div>
         </div>
@@ -563,17 +563,14 @@
 
     <main class="work" aria-label="Work">
       <!--
-        Each project is one <figure class="shot">. Set data-title and data-company (shown in the
-        hover caption, sidebar and lightbox) and data-co (which company in your bio lights up:
-        toast, duolingo, doordash or meta).
-
-        To add real work, replace the placeholder <div class="media placeholder"> with one of these:
-
-        Image or GIF:
-          <img class="media" src="images/daily-refresh.gif" alt="Daily Refresh on the Duolingo path" loading="lazy">
-
-        Video (much lighter than a GIF — export your GIFs as MP4). It plays only while on screen:
-          <video class="media" src="images/daily-refresh.mp4" muted loop playsinline preload="metadata" aria-label="Daily Refresh on the Duolingo path"></video>
+        Each project is one <figure class="shot">:
+          data-title / data-company  name shown in the pill, sidebar and lightbox
+          data-co                    which company in the bio lights up (toast, duolingo, doordash, meta)
+          data-line                  one-line description
+          data-stats                 impact numbers, e.g. [{"v":51,"pre":"+","suf":"K","label":"MAUs"}]
+                                     ("dec" sets decimals; {"text":"…"} shows a word instead of a number)
+        Media is an <img class="media"> (1862×1164 WebP) or a <video class="media"> with a poster;
+        videos play only while on screen.
       -->
 
       <figure class="shot" data-title="[Project name]" data-company="Toast" data-co="toast">
@@ -585,7 +582,7 @@
 
       <figure class="shot" data-title="Daily Refresh" data-company="Duolingo" data-co="duolingo"
         data-line="Keeping course finishers learning every day"
-        data-stats='[{"v":700,"pre":"+","suf":"K","label":"min/day"},{"v":1.58,"dec":2,"pre":"+","suf":"%","label":"retention"},{"v":14,"pre":"+","suf":"K","label":"DAUs"}]'>
+        data-stats='[{"v":700,"pre":"+","suf":"K","label":"minutes/day"},{"v":1.58,"dec":2,"pre":"+","suf":"%","label":"retention"},{"v":14,"pre":"+","suf":"K","label":"DAUs"}]'>
         <button type="button" class="shot-btn">
           <img class="media" src="images/daily-refresh.webp" width="1862" height="1164" alt="Daily Refresh on Duolingo: finishing a course, unlocking Daily Refresh, and the daily practice ring on the path" loading="lazy" decoding="async">
           <span class="pill"><b>Daily Refresh</b> <span>· Duolingo</span></span>
@@ -593,20 +590,20 @@
       </figure>
 
       <figure class="shot" data-title="Account Switching" data-company="DoorDash" data-co="doordash"
-        data-line="Switching between accounts in one tap"
-        data-stats='[{"v":51,"pre":"+","suf":"K","label":"MAUs"},{"v":57,"pre":"+$","suf":"M","label":"annualized GOV"},{"v":832,"pre":"−","suf":"K","label":"logouts/yr"}]'>
+        data-line="Letting customers switch accounts in one tap"
+        data-stats='[{"v":51,"pre":"+","suf":"K","label":"MAUs"},{"v":57,"pre":"+$","suf":"M","label":"annualized GOV"},{"v":832,"pre":"−","suf":"K","label":"logouts/year"}]'>
         <button type="button" class="shot-btn">
           <img class="media" src="images/account-switching.webp" width="1862" height="1164" alt="Account Switching on DoorDash: the profile header chevron, the Choose an account sheet, and the confirmation toast after switching" loading="lazy" decoding="async">
           <span class="pill"><b>Account Switching</b> <span>· DoorDash</span></span>
         </button>
       </figure>
 
-      <figure class="shot" data-title="Delight on the path" data-company="Duolingo" data-co="duolingo"
+      <figure class="shot" data-title="Delight on the Path" data-company="Duolingo" data-co="duolingo"
         data-line="Making progress on the path feel more rewarding"
         data-stats='[{"v":69,"pre":"+","suf":"K","label":"sessions"},{"v":150,"pre":"+","suf":"K","label":"time spent learning"},{"v":0.75,"dec":2,"pre":"+","suf":"%","label":"new user retention"}]'>
         <button type="button" class="shot-btn">
           <video class="media" src="images/delight-on-path.mp4" poster="images/delight-on-path.webp" width="1862" height="1164" muted loop playsinline preload="metadata" aria-label="Delight on Duolingo's path: a treasure chest opening, Duo and a bear character on the path, and a lesson completing with a progress ring"></video>
-          <span class="pill"><b>Delight on the path</b> <span>· Duolingo</span></span>
+          <span class="pill"><b>Delight on the Path</b> <span>· Duolingo</span></span>
         </button>
       </figure>
 
@@ -838,7 +835,7 @@
         if (i === active) return;
         active = i;
         var s = shots[i];
-        var label = s.getAttribute('data-title') + ' - ' + s.getAttribute('data-company');
+        var label = s.getAttribute('data-title') + ' · ' + s.getAttribute('data-company');
         nowCount.textContent = pad(i + 1) + ' / ' + pad(shots.length);
         cos.forEach(function (c) { c.classList.toggle('is-active', c.getAttribute('data-co') === s.getAttribute('data-co')); });
         var fill = function () {
