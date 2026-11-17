@@ -329,7 +329,6 @@
     .stat { display: flex; flex-direction: column; }
     .stat-v { color: var(--ink); font-size: 20px; line-height: 1.2; font-weight: var(--w-strong); font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
     .stat-l { font-size: 12px; }
-    .stat-note { display: inline-block; padding: 4px 10px; border-radius: 999px; background: var(--surface); color: var(--muted); font-size: 12px; line-height: 1.4; }
     .lb-caption .lb-line { display: block; margin-top: 2px; }
     .lb-caption .now-stats { justify-content: center; margin-top: 10px; }
     .lb-caption .stat { align-items: center; }
@@ -613,7 +612,7 @@
 
       <figure class="shot" data-title="Surprise Bags" data-company="DoorDash" data-co="doordash"
         data-line="Turning surplus restaurant food into meals under $10"
-        data-note="Vision concept · Presented to senior leadership">
+        data-stats='[{"v":2,"label":"vision concepts"},{"text":"Presented","label":"to senior leadership"}]'>
         <button type="button" class="shot-btn">
           <img class="media" src="images/surprise-bags.webp" width="1862" height="1164" alt="Surprise Bags on DoorDash: a Surprise Bags Under $10 carousel on the home feed, and a Box of Bagels item with afternoon or evening delivery" loading="lazy" decoding="async">
           <span class="pill"><b>Surprise Bags</b> <span>· DoorDash</span></span>
@@ -809,6 +808,7 @@
         try { return JSON.parse(fig.getAttribute('data-stats') || '[]'); } catch (e) { return []; }
       }
       function fmtStat(st, v) {
+        if (st.text) return st.text;
         return (st.pre || '') + v.toFixed(st.dec || 0) + (st.suf || '');
       }
       // Impact numbers count up from zero each time a project comes into view
@@ -824,8 +824,6 @@
           box.appendChild(v); box.appendChild(l); el.appendChild(box);
           return v;
         });
-        var note = fig.getAttribute('data-note');
-        if (note) { var n = document.createElement('span'); n.className = 'stat-note'; n.textContent = note; el.appendChild(n); }
         if (!animate || !list.length) return;
         var t0 = null, dur = 900;
         function tick(now) {
