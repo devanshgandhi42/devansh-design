@@ -40,3 +40,10 @@ Every push to `main` redeploys automatically.
 ## Credits
 
 Tennis hit sound: WolfOWI on Freesound (freesound.org/s/587395). Its license does not require attribution.
+
+## Password
+
+The whole site sits behind a password page (`middleware.ts`, Vercel Routing Middleware).
+Set the password in Vercel → Project → Settings → Environment Variables as `SITE_PASSWORD`
+(Production), then redeploy. Without it set, the site stays open. Visitors stay signed in
+for 30 days; changing the password signs everyone out. Link-preview images stay public.
