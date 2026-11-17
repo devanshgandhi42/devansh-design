@@ -321,8 +321,17 @@
       color: var(--ink); font-weight: var(--w-medium);
       transition: opacity var(--fast) var(--ease), transform var(--base) var(--ease);
     }
-    .now-title.is-out { opacity: 0; transform: translateY(-4px); }
-    .now-title.is-in-start { opacity: 0; transform: translateY(4px); transition: none; }
+    .now-body { display: flex; flex-direction: column; gap: 2px; transition: opacity var(--fast) var(--ease), transform var(--base) var(--ease); }
+    .now-body.is-out { opacity: 0; transform: translateY(-4px); }
+    .now-body.is-in-start { opacity: 0; transform: translateY(4px); transition: none; }
+    .now-line:empty, .now-stats:empty { display: none; }
+    .now-stats { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 10px; }
+    .stat { display: flex; flex-direction: column; }
+    .stat-v { color: var(--ink); font-size: 20px; line-height: 1.2; font-weight: var(--w-strong); font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+    .stat-l { font-size: 12px; }
+    .lb-caption .lb-line { display: block; margin-top: 2px; }
+    .lb-caption .now-stats { justify-content: center; margin-top: 10px; }
+    .lb-caption .stat { align-items: center; }
 
     /* ---------- Toast ---------- */
     .toast {
@@ -498,7 +507,7 @@
       .reveal { animation: none; }
       .js .shot { transform: none; transition: opacity 200ms linear; }
       .dot::after { animation: none; opacity: 0; }
-      .pron, .pill, .toast, .now-title, .swap > span, .lb-caption { transform: none !important; }
+      .pron, .pill, .toast, .now-body, .swap > span, .lb-caption { transform: none !important; }
       .u, .arrow { transition: none; }
       .lb-media { transition: none; }
     }
@@ -544,7 +553,11 @@
 
       <div class="now reveal" style="--i:3" aria-hidden="true">
         <span class="now-count" id="now-count">01 / 08</span>
-        <span class="now-title" id="now-title">[Project name] - Toast</span>
+        <div class="now-body" id="now-body">
+          <span class="now-title" id="now-title">[Project name] - Toast</span>
+          <span class="now-line" id="now-line"></span>
+          <div class="now-stats" id="now-stats"></div>
+        </div>
       </div>
     </aside>
 
@@ -570,7 +583,9 @@
         </button>
       </figure>
 
-      <figure class="shot" data-title="Daily Refresh" data-company="Duolingo" data-co="duolingo">
+      <figure class="shot" data-title="Daily Refresh" data-company="Duolingo" data-co="duolingo"
+        data-line="Keeping course finishers learning every day"
+        data-stats='[{"v":700,"pre":"+","suf":"K","label":"min/day"},{"v":1.58,"dec":2,"pre":"+","suf":"%","label":"retention"},{"v":14,"pre":"+","suf":"K","label":"DAUs"}]'>
         <button type="button" class="shot-btn">
           <img class="media" src="images/daily-refresh.webp" width="1862" height="1164" alt="Daily Refresh on Duolingo: finishing a course, unlocking Daily Refresh, and the daily practice ring on the path" loading="lazy" decoding="async">
           <span class="pill"><b>Daily Refresh</b> <span>· Duolingo</span></span>
@@ -784,6 +799,39 @@
       var cos = document.querySelectorAll('.co');
       var active = -1;
       function pad(n) { return (n < 10 ? '0' : '') + n; }
+      var nowBody = document.getElementById('now-body');
+      var nowLine = document.getElementById('now-line');
+      var nowStats = document.getElementById('now-stats');
+      var countRaf = null;
+      function statsOf(fig) {
+        try { return JSON.parse(fig.getAttribute('data-stats') || '[]'); } catch (e) { return []; }
+      }
+      function fmtStat(st, v) {
+        return (st.pre || '') + v.toFixed(st.dec || 0) + (st.suf || '');
+      }
+      // Impact numbers count up from zero each time a project comes into view
+      function renderStats(el, fig, animate) {
+        if (countRaf && el === nowStats) cancelAnimationFrame(countRaf);
+        var list = statsOf(fig);
+        el.innerHTML = '';
+        var vals = list.map(function (st) {
+          var box = document.createElement('div'); box.className = 'stat';
+          var v = document.createElement('span'); v.className = 'stat-v';
+          var l = document.createElement('span'); l.className = 'stat-l'; l.textContent = st.label;
+          v.textContent = fmtStat(st, animate ? 0 : st.v);
+          box.appendChild(v); box.appendChild(l); el.appendChild(box);
+          return v;
+        });
+        if (!animate || !list.length) return;
+        var t0 = null, dur = 900;
+        function tick(now) {
+          if (t0 === null) t0 = now;
+          var p = Math.min((now - t0) / dur, 1), e = 1 - Math.pow(1 - p, 3);
+          list.forEach(function (st, k) { vals[k].textContent = fmtStat(st, st.v * e); });
+          if (p < 1) { var id = requestAnimationFrame(tick); if (el === nowStats) countRaf = id; }
+        }
+        var id0 = requestAnimationFrame(tick); if (el === nowStats) countRaf = id0;
+      }
       function setActive(i) {
         if (i === active) return;
         active = i;
@@ -791,14 +839,19 @@
         var label = s.getAttribute('data-title') + ' - ' + s.getAttribute('data-company');
         nowCount.textContent = pad(i + 1) + ' / ' + pad(shots.length);
         cos.forEach(function (c) { c.classList.toggle('is-active', c.getAttribute('data-co') === s.getAttribute('data-co')); });
-        if (reduceMotion) { nowTitle.textContent = label; return; }
-        nowTitle.classList.add('is-out');
-        setTimeout(function () {
+        var fill = function () {
           nowTitle.textContent = label;
-          nowTitle.classList.remove('is-out');
-          nowTitle.classList.add('is-in-start');
-          void nowTitle.offsetWidth;
-          nowTitle.classList.remove('is-in-start');
+          nowLine.textContent = s.getAttribute('data-line') || '';
+          renderStats(nowStats, s, !reduceMotion);
+        };
+        if (reduceMotion) { fill(); return; }
+        nowBody.classList.add('is-out');
+        setTimeout(function () {
+          fill();
+          nowBody.classList.remove('is-out');
+          nowBody.classList.add('is-in-start');
+          void nowBody.offsetWidth;
+          nowBody.classList.remove('is-in-start');
         }, 150);
       }
       if (hasIO) {
@@ -823,13 +876,14 @@
 
       /* ---------- Lightbox: zooms from where the image sits ---------- */
       var lb = null;
-      function targetRect(src) {
+      function targetRect(src, hasDetails) {
         var aspect = src.width / src.height;
         var maxW = Math.min(window.innerWidth * 0.92, 1600);
-        var maxH = window.innerHeight * 0.8;
+        var maxH = window.innerHeight * (hasDetails ? 0.66 : 0.8);   // leave room for the impact numbers
         var w = Math.min(maxW, maxH * aspect);
         var h = w / aspect;
-        return { left: (window.innerWidth - w) / 2, top: (window.innerHeight - h) / 2 - 12, width: w, height: h };
+        var lift = hasDetails ? 56 : 12;
+        return { left: (window.innerWidth - w) / 2, top: Math.max(16, (window.innerHeight - h) / 2 - lift), width: w, height: h };
       }
       function transformFrom(src, to) {
         return 'translate(' + (src.left - to.left) + 'px,' + (src.top - to.top) + 'px) scale(' + (src.width / to.width) + ',' + (src.height / to.height) + ')';
@@ -838,7 +892,7 @@
         if (lb) return;
         var fig = btn.closest('.shot');
         var src = btn.getBoundingClientRect();
-        var to = targetRect(src);
+        var to = targetRect(src, !!(fig.getAttribute('data-line') || fig.getAttribute('data-stats')));
 
         var wrap = document.createElement('div');
         wrap.className = 'lightbox';
@@ -861,9 +915,12 @@
         var caption = document.createElement('div');
         caption.className = 'lb-caption';
         caption.style.top = (to.top + to.height + 16) + 'px';
-        caption.innerHTML = '<b></b> <span></span>';
+        caption.innerHTML = '<b></b> <span></span><span class="lb-line"></span><div class="now-stats"></div>';
         caption.querySelector('b').textContent = fig.getAttribute('data-title');
         caption.querySelector('span').textContent = '· ' + fig.getAttribute('data-company');
+        caption.querySelector('.lb-line').textContent = fig.getAttribute('data-line') || '';
+        if (!fig.getAttribute('data-line')) caption.querySelector('.lb-line').style.display = 'none';
+        renderStats(caption.querySelector('.now-stats'), fig, !reduceMotion);
 
         var close = document.createElement('button');
         close.type = 'button';
