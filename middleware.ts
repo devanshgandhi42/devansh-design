@@ -56,12 +56,14 @@ export default async function middleware(request: Request) {
         },
       });
     }
-    return page(true, 401);
+    return page(true, 200);
   }
 
-  return page(false, 401);
+  return page(false, 200);
 }
 
+// 200, not 401: link-preview bots (iMessage, Slack, LinkedIn) skip pages that return an error,
+// so the name card would never show. The page itself reveals nothing but the name and title.
 function page(wrong: boolean, status: number) {
   return new Response(gateHtml(wrong), {
     status,
