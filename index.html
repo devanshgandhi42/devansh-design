@@ -408,6 +408,12 @@
     .pill span { color: var(--muted); }
     .shot-btn:hover .pill, .shot-btn:focus-visible .pill { opacity: 1; transform: none; }
 
+    /* Caption under each project on phones, where there is no hover */
+    .cap { display: none; margin: 10px 2px 0; font-size: 14px; line-height: 1.4; }
+    .cap b { font-weight: var(--w-medium); }
+    .cap .cap-co, .cap .cap-line { color: var(--muted); }
+    .cap .cap-line { display: block; margin-top: 2px; }
+
     /* Placeholder look — delete once real images are in */
     .placeholder {
       display: flex; align-items: center; justify-content: center;
@@ -499,7 +505,9 @@
       .page { grid-template-columns: 1fr; gap: 48px; padding-top: 32px; }
       .sidebar { position: static; max-height: none; overflow: visible; }
       .now { display: none; }
-      .pill { opacity: 1; transform: none; }
+      .pill { display: none; }
+      .work { gap: 28px; }
+      .cap { display: block; }
     }
 
     /* ---------- Reduced motion: keep the feedback, drop the movement ---------- */
@@ -778,6 +786,17 @@
       } else {
         shots.forEach(function (s) { s.classList.add('is-in'); });
       }
+
+      /* ---------- Captions under projects (shown on phones) ---------- */
+      document.querySelectorAll('.work .shot').forEach(function (fig) {
+        var cap = document.createElement('figcaption'); cap.className = 'cap';
+        var b = document.createElement('b'); b.textContent = fig.getAttribute('data-title');
+        var co = document.createElement('span'); co.className = 'cap-co'; co.textContent = ' · ' + fig.getAttribute('data-company');
+        cap.appendChild(b); cap.appendChild(co);
+        var line = fig.getAttribute('data-line');
+        if (line) { var l = document.createElement('span'); l.className = 'cap-line'; l.textContent = line; cap.appendChild(l); }
+        fig.appendChild(cap);
+      });
 
       /* ---------- Videos play only while on screen ---------- */
       if (hasIO) {
