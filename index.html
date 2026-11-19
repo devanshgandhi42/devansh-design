@@ -31,6 +31,7 @@
   </script>
   <style>
     :root {
+      --up: #1E8E4E;
       --bg: #FFFFFF;
       --ink: #121212;
       --muted: #5F6368;
@@ -64,6 +65,7 @@
 
     /* ---------- Dark theme ---------- */
     :root[data-theme="dark"] {
+      --up: #5CCB8A;
       --bg: #111111;
       --ink: #EDEDEA;
       --muted: #9A9DA1;
@@ -84,6 +86,7 @@
     }
     @media (prefers-color-scheme: dark) {
       :root:not([data-theme="light"]) {
+        --up: #5CCB8A;
         --bg: #111111;
         --ink: #EDEDEA;
         --muted: #9A9DA1;
@@ -329,6 +332,12 @@
     .stat { display: flex; flex-direction: column; }
     .stat-v { color: var(--ink); font-size: 20px; line-height: 1.2; font-weight: var(--w-strong); font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
     .stat-l { font-size: 12px; }
+    /* Trend stat: an up arrow in place of a number */
+    .stat-v.is-up { display: inline-flex; align-items: center; height: 24px; color: var(--up); }
+    .stat-v.is-up svg { width: 22px; height: 22px; }
+    .stat-v.is-up.rise { animation: rise .6s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(var(--k, 0) * 90ms); }
+    @keyframes rise { from { opacity: 0; transform: translate(-4px, 6px); } to { opacity: 1; transform: none; } }
+    .lb-caption .stat-v.is-up { justify-content: center; }
     .badge { display: inline-block; vertical-align: 1px; margin-left: 4px; padding: 1px 7px; border-radius: 999px; background: var(--surface); color: var(--muted); font-style: normal; font-size: 11px; font-weight: var(--w-medium); letter-spacing: .01em; line-height: 1.5; white-space: nowrap; }
     .lb-caption .lb-line { display: block; margin-top: 2px; }
     .lb-caption .now-stats { justify-content: center; margin-top: 10px; }
@@ -584,7 +593,7 @@
 
       <figure class="shot" data-title="Event Ticketing" data-company="Toast" data-co="toast" data-badge="Open beta"
         data-line="Bringing ticketed events to restaurants on Toast"
-        data-stats='[{"v":340,"pre":"$","suf":"K+","label":"ticket sales"},{"v":7.5,"dec":1,"suf":"K+","label":"tickets sold"},{"v":150,"suf":"+","label":"restaurants selling"}]'>
+        data-stats='[{"text":"0 → 1","label":"new product"},{"v":100,"pre":"$","suf":"K+","label":"ticket sales"},{"v":150,"suf":"+","label":"restaurants selling"}]'>
         <button type="button" class="shot-btn">
           <img class="media" src="images/event-ticketing.webp" width="1862" height="1164" alt="Event Ticketing on Toast: a restaurant adding photos while setting up Live Jazz Night, and a guest's You're going! confirmation with Invite friends and View tickets" loading="lazy" decoding="async">
           <span class="pill"><b>Event Ticketing</b> <span>· Toast</span></span>
@@ -836,11 +845,18 @@
         if (countRaf && el === nowStats) cancelAnimationFrame(countRaf);
         var list = statsOf(fig);
         el.innerHTML = '';
-        var vals = list.map(function (st) {
+        var vals = list.map(function (st, k) {
           var box = document.createElement('div'); box.className = 'stat';
           var v = document.createElement('span'); v.className = 'stat-v';
           var l = document.createElement('span'); l.className = 'stat-l'; l.textContent = st.label;
-          v.textContent = fmtStat(st, animate ? 0 : st.v);
+          if (st.up) {
+            v.classList.add('is-up'); v.setAttribute('aria-label', 'Increased');
+            v.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>';
+            v.style.setProperty('--k', String(k));
+            if (animate) v.classList.add('rise');
+          } else {
+            v.textContent = fmtStat(st, animate ? 0 : st.v);
+          }
           box.appendChild(v); box.appendChild(l); el.appendChild(box);
           return v;
         });
@@ -849,7 +865,7 @@
         function tick(now) {
           if (t0 === null) t0 = now;
           var p = Math.min((now - t0) / dur, 1), e = 1 - Math.pow(1 - p, 3);
-          list.forEach(function (st, k) { vals[k].textContent = fmtStat(st, st.v * e); });
+          list.forEach(function (st, k) { if (!st.up) vals[k].textContent = fmtStat(st, st.v * e); });
           if (p < 1) { var id = requestAnimationFrame(tick); if (el === nowStats) countRaf = id; }
         }
         var id0 = requestAnimationFrame(tick); if (el === nowStats) countRaf = id0;
