@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy — Dev Gandhi</title>
+<meta name="description" content="What devansh.design does and does not collect: no analytics, no cookies, and only a theme preference stored in your browser.">
+<link rel="canonical" href="https://www.devansh.design/privacy">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.devansh.design/privacy">
+<meta property="og:title" content="Privacy — Dev Gandhi">
+<meta property="og:description" content="What devansh.design does and does not collect: no analytics, no cookies, and only a theme preference stored in your browser.">
+<meta property="og:image" content="https://www.devansh.design/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="alternate" type="text/markdown" href="/llms.txt" title="Plain-text summary for AI agents">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<script>try { var t = localStorage.getItem('theme'); if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t); } catch (e) {}</script>
+<style>
+  :root { --bg:#FFFFFF; --ink:#121212; --muted:#5F6368; --rule:#ECECE8; color-scheme: light; }
+  :root[data-theme="dark"] { --bg:#111111; --ink:#F2F2F0; --muted:#A1A1A6; --rule:#2A2A2A; color-scheme: dark; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg:#111111; --ink:#F2F2F0; --muted:#A1A1A6; --rule:#2A2A2A; color-scheme: dark; }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { background: var(--bg); color: var(--ink); font-family: "Hanken Grotesk", Inter, system-ui, sans-serif; font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  .page { max-width: 600px; margin: 0 auto; padding: 56px 16px 72px; }
+  header { display: flex; flex-wrap: wrap; gap: 4px 18px; align-items: baseline; padding-bottom: 20px; border-bottom: 1px solid var(--rule); }
+  header .home { font-weight: 600; text-decoration: none; color: var(--ink); margin-right: auto; }
+  header nav a { color: var(--muted); text-decoration: none; margin-left: 14px; }
+  header nav a:first-child { margin-left: 0; }
+  header nav a:hover, header nav a[aria-current] { color: var(--ink); }
+  h1 { margin: 36px 0 6px; font-size: 22px; font-weight: 600; letter-spacing: -0.01em; }
+  h2 { margin: 32px 0 6px; font-size: 15px; font-weight: 600; }
+  p, li { margin: 0 0 12px; }
+  ul { padding-left: 18px; margin: 0 0 12px; }
+  .muted { color: var(--muted); }
+  a { color: var(--ink); text-underline-offset: 3px; }
+  footer { margin-top: 48px; padding-top: 18px; border-top: 1px solid var(--rule); color: var(--muted); font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <a class="home" href="/">Dev Gandhi</a>
+    <nav aria-label="Pages"><a href="/about">About</a><a href="/contact">Contact</a><a href="/privacy" aria-current="page">Privacy</a></nav>
+  </header>
+  <main>
+    <h1>Privacy</h1>
+    <p>This is a personal portfolio. It doesn’t have accounts, forms, or ads, and I don’t run analytics or tracking scripts on it. Here’s everything it does with your data, in plain terms.</p>
+
+    <h2>What the site stores</h2>
+    <p>If you switch between light and dark mode, your choice is saved in your browser’s local storage so the site remembers it next time. That’s the only thing saved, it stays on your device, and it never reaches me. The site sets no cookies.</p>
+
+    <h2>Third parties</h2>
+    <ul>
+      <li><strong>Vercel</strong> hosts the site. Like any web host, it handles requests and may keep standard server logs, such as IP address, browser, and pages requested, for security and reliability.</li>
+      <li><strong>Google Fonts</strong> serves the typeface, so your browser requests the font files from Google.</li>
+    </ul>
+
+    <h2>Email</h2>
+    <p>The “Copy email” button only copies my address to your clipboard. If you email me, I’ll use your message just to reply, and I won’t share or sell it.</p>
+
+    <h2>Questions</h2>
+    <p>Email <a href="mailto:devanshgandhi42@gmail.com">devanshgandhi42@gmail.com</a> if you have any questions about this page.</p>
+  </main>
+  <footer>Updated November 2026 · <a href="/llms.txt">Plain-text summary</a> · <a href="/sitemap.xml">Sitemap</a></footer>
+</div>
+</body>
+</html>

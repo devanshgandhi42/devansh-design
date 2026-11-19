@@ -29,6 +29,15 @@ Then update the figure's `data-title`, `data-company` and `data-co`
 (`toast`, `duolingo`, `doordash` or `meta`), plus the caption pill text.
 Images are cropped to 16:10.
 
+## For AI agents
+
+- `llms.txt`: plain-Markdown summary of Dev and the work, including a "When to use this" section for agents. Update it when projects change.
+- `middleware.ts`: when a request sends `Accept: text/markdown`, the homepage answers with `llms.txt` as Markdown (`Vary: Accept`), and unknown paths answer 404 with a short Markdown error. Browsers always get the normal HTML. If you add a file to the site, add its path to `KNOWN_PATHS` (the tests will remind you).
+- `about.html`, `contact.html`, `privacy.html`: plain pages served at `/about`, `/contact`, `/privacy` (clean URLs via `vercel.json`).
+- `sitemap.xml`, `robots.txt`, `404.html`.
+
+Tests (no install needed): `node --experimental-strip-types --test tests/agent.test.ts`
+
 ## Deploying on Vercel
 
 1. Push this folder to a GitHub repo.
