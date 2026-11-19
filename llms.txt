@@ -1,0 +1,20 @@
+# Dev Gandhi — Product Designer
+
+> Devansh "Dev" Gandhi is a product designer in Seattle with 5+ years of experience across consumer and growth products. Currently at Toast; previously Duolingo, DoorDash (contract), and Meta (intern). University of Washington, B.Des. in Interaction Design.
+
+- Portfolio: https://www.devansh.design/
+- Resume (PDF): https://www.devansh.design/resume.pdf
+- LinkedIn: https://www.linkedin.com/in/devanshg42/
+
+## Selected work
+
+- **Event Ticketing · Toast (open beta)** — Bringing ticketed events to restaurants on Toast: event setup, guest checkout and confirmation, and door check-in. Impact: 0 → 1 new product, $100K+ ticket sales, 150+ restaurants selling.
+- **Daily Refresh · Duolingo** — Keeping course finishers learning every day. Impact: +700K minutes/day, +1.58% retention, +14K DAUs.
+- **Account Switching · DoorDash** — Letting customers switch accounts in one tap. Impact: +51K MAUs, +$57M annualized GOV, −832K logouts/year.
+- **Delight on the Path · Duolingo** — Making progress on the path feel more rewarding. Impact: +69K sessions, +150K time spent learning, +0.75% new user retention.
+- **Surprise Bags · DoorDash** — Turning surplus restaurant food into meals under $10. Two vision concepts presented to senior leadership.
+- **Icebreakers · Meta** — Helping people start conversations with businesses on Messenger. Impact: shipped to 7M+ businesses, +42% qualified leads, +18% resolve rate.
+
+## Skills
+
+Consumer product design, growth and experimentation, interaction design, design systems, prototyping (Figma, Framer, Claude Code, HTML/CSS), product strategy, visual design, user research.

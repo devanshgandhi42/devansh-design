@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Dev Gandhi — Product Designer</title>
   <meta name="description" content="Dev Gandhi is a product designer with 5+ years of experience across consumer and growth products. Currently at Toast, previously at Duolingo, DoorDash, and Meta.">
-  <link rel="canonical" href="https://devansh.design/">
+  <link rel="canonical" href="https://www.devansh.design/">
   <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -14,13 +14,30 @@
 
   <!-- Link previews (LinkedIn, iMessage, Slack, X) -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://devansh.design/">
+  <meta property="og:url" content="https://www.devansh.design/">
   <meta property="og:title" content="Dev Gandhi — Product Designer">
   <meta property="og:description" content="5+ years designing consumer and growth products. Currently at Toast, previously Duolingo, DoorDash, and Meta.">
-  <meta property="og:image" content="https://devansh.design/og-image.png">
+  <meta property="og:image" content="https://www.devansh.design/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Devansh Gandhi",
+    "alternateName": "Dev Gandhi",
+    "jobTitle": "Product Designer",
+    "description": "Product designer with 5+ years of experience across consumer and growth products. Currently at Toast, previously at Duolingo, DoorDash, and Meta.",
+    "url": "https://www.devansh.design/",
+    "image": "https://www.devansh.design/og-image.png",
+    "worksFor": { "@type": "Organization", "name": "Toast", "url": "https://pos.toasttab.com" },
+    "alumniOf": { "@type": "CollegeOrUniversity", "name": "University of Washington" },
+    "address": { "@type": "PostalAddress", "addressLocality": "Seattle", "addressRegion": "WA", "addressCountry": "US" },
+    "knowsAbout": ["Product design", "Consumer product design", "Growth design", "Interaction design", "Design systems", "Prototyping"],
+    "sameAs": ["https://www.linkedin.com/in/devanshg42/", "https://github.com/devanshgandhi42"]
+  }
+  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -419,6 +436,7 @@
     .shot-btn:hover .pill, .shot-btn:focus-visible .pill { opacity: 1; transform: none; }
 
     /* Caption under each project on phones, where there is no hover */
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
     .cap { display: none; margin: 10px 2px 0; font-size: 14px; line-height: 1.4; }
     .cap b { font-weight: var(--w-medium); }
     .cap .cap-co, .cap .cap-line { color: var(--muted); }
@@ -580,6 +598,7 @@
     </aside>
 
     <main class="work" aria-label="Work">
+      <h2 class="sr-only">Selected work</h2>
       <!--
         Each project is one <figure class="shot">:
           data-title / data-company  name shown in the pill, sidebar and lightbox
@@ -598,6 +617,7 @@
           <img class="media" src="images/event-ticketing.webp" width="1862" height="1164" alt="Event Ticketing on Toast: the restaurant adding photos to Live Jazz Night, the guest's You're going! confirmation, and staff scanning tickets to check guests in" loading="lazy" decoding="async">
           <span class="pill"><b>Event Ticketing</b> <span>· Toast</span></span>
         </button>
+        <figcaption class="cap"><b>Event Ticketing</b><span class="cap-co"> · Toast</span> <i class="badge">Open beta</i><span class="cap-line">Bringing ticketed events to restaurants on Toast</span><span class="sr-only"> Impact: 0 → 1 new product, $100K+ ticket sales, 150+ restaurants selling.</span></figcaption>
       </figure>
 
       <figure class="shot" data-title="Daily Refresh" data-company="Duolingo" data-co="duolingo"
@@ -607,6 +627,7 @@
           <img class="media" src="images/daily-refresh.webp" width="1862" height="1164" alt="Daily Refresh on Duolingo: finishing a course, unlocking Daily Refresh, and the daily practice ring on the path" loading="lazy" decoding="async">
           <span class="pill"><b>Daily Refresh</b> <span>· Duolingo</span></span>
         </button>
+        <figcaption class="cap"><b>Daily Refresh</b><span class="cap-co"> · Duolingo</span><span class="cap-line">Keeping course finishers learning every day</span><span class="sr-only"> Impact: +700K minutes/day, +1.58% retention, +14K DAUs.</span></figcaption>
       </figure>
 
       <figure class="shot" data-title="Account Switching" data-company="DoorDash" data-co="doordash"
@@ -616,6 +637,7 @@
           <img class="media" src="images/account-switching.webp" width="1862" height="1164" alt="Account Switching on DoorDash: the profile header chevron, the Choose an account sheet, and the confirmation toast after switching" loading="lazy" decoding="async">
           <span class="pill"><b>Account Switching</b> <span>· DoorDash</span></span>
         </button>
+        <figcaption class="cap"><b>Account Switching</b><span class="cap-co"> · DoorDash</span><span class="cap-line">Letting customers switch accounts in one tap</span><span class="sr-only"> Impact: +51K MAUs, +$57M annualized GOV, −832K logouts/year.</span></figcaption>
       </figure>
 
       <figure class="shot" data-title="Delight on the Path" data-company="Duolingo" data-co="duolingo"
@@ -625,6 +647,7 @@
           <video class="media" src="images/delight-on-path.mp4" poster="images/delight-on-path.webp" width="1862" height="1164" muted loop playsinline preload="metadata" aria-label="Delight on Duolingo's path: a treasure chest opening, Duo and a bear character on the path, and a lesson completing with a progress ring"></video>
           <span class="pill"><b>Delight on the Path</b> <span>· Duolingo</span></span>
         </button>
+        <figcaption class="cap"><b>Delight on the Path</b><span class="cap-co"> · Duolingo</span><span class="cap-line">Making progress on the path feel more rewarding</span><span class="sr-only"> Impact: +69K sessions, +150K time spent learning, +0.75% new user retention.</span></figcaption>
       </figure>
 
       <figure class="shot" data-title="Surprise Bags" data-company="DoorDash" data-co="doordash"
@@ -634,6 +657,7 @@
           <img class="media" src="images/surprise-bags.webp" width="1862" height="1164" alt="Surprise Bags on DoorDash: a Surprise Bags Under $10 carousel on the home feed, and a Box of Bagels item with afternoon or evening delivery" loading="lazy" decoding="async">
           <span class="pill"><b>Surprise Bags</b> <span>· DoorDash</span></span>
         </button>
+        <figcaption class="cap"><b>Surprise Bags</b><span class="cap-co"> · DoorDash</span><span class="cap-line">Turning surplus restaurant food into meals under $10</span><span class="sr-only"> Impact: 2 vision concepts, Presented to senior leadership.</span></figcaption>
       </figure>
 
       <figure class="shot" data-title="Icebreakers" data-company="Meta" data-co="meta"
@@ -643,6 +667,7 @@
           <img class="media" src="images/icebreakers.webp" width="1862" height="1164" alt="Icebreakers in Messenger: suggested questions like “Do you have any deals going on?” and the business replying with product cards" loading="lazy" decoding="async">
           <span class="pill"><b>Icebreakers</b> <span>· Meta</span></span>
         </button>
+        <figcaption class="cap"><b>Icebreakers</b><span class="cap-co"> · Meta</span><span class="cap-line">Helping people start conversations with businesses on Messenger</span><span class="sr-only"> Impact: 7M+ businesses, +42% qualified leads, +18% resolve rate.</span></figcaption>
       </figure>
 
       <footer class="footer" id="footer">
@@ -798,18 +823,6 @@
       } else {
         shots.forEach(function (s) { s.classList.add('is-in'); });
       }
-
-      /* ---------- Captions under projects (shown on phones) ---------- */
-      document.querySelectorAll('.work .shot').forEach(function (fig) {
-        var cap = document.createElement('figcaption'); cap.className = 'cap';
-        var b = document.createElement('b'); b.textContent = fig.getAttribute('data-title');
-        var co = document.createElement('span'); co.className = 'cap-co'; co.textContent = ' · ' + fig.getAttribute('data-company');
-        cap.appendChild(b); cap.appendChild(co);
-        var bd = badgeEl(fig); if (bd) { cap.appendChild(document.createTextNode(' ')); cap.appendChild(bd); }
-        var line = fig.getAttribute('data-line');
-        if (line) { var l = document.createElement('span'); l.className = 'cap-line'; l.textContent = line; cap.appendChild(l); }
-        fig.appendChild(cap);
-      });
 
       /* ---------- Videos play only while on screen ---------- */
       if (hasIO) {
